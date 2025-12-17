@@ -1,21 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-white" style="background-color:white;">
+<html lang="en" class="bg-white">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PrimeTIX</title>
 
-    <!-- KONFIGURASI TAILWIND HARUS SEBELUM CDN -->
-    <script>
-        tailwind = {
-            config: {
-                darkMode: 'class'
-            }
-        }
-    </script>
-
-    <!-- LOAD TAILWIND -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
@@ -25,188 +15,289 @@
     </style>
 </head>
 
+<body class="min-h-screen bg-white px-6 py-8">
 
-<body class="min-h-screen bg-white px-6 py-8 bg-white">
     <!-- NAV -->
     <nav class="flex justify-between items-center">
         <h1 class="text-2xl font-bold">PrimeTIX</h1>
         <div class="w-10 h-10 bg-black rounded-full"></div>
     </nav>
 
-    <!-- HERO TEXT -->
+    <!-- HERO -->
     <div class="text-center mt-12">
         <h2 class="text-4xl font-semibold">Feel The movies beyond</h2>
 
-        <!-- Search -->
         <div class="mt-6 flex justify-center">
             <div class="w-full max-w-xl flex items-center gap-3 bg-gray-100 px-4 py-3 rounded-full">
-                <svg width="22" height="22" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" class="lucide lucide-search">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
                 <input type="text" placeholder="Cari Film atau bioskop"
                     class="w-full bg-transparent focus:outline-none">
             </div>
         </div>
     </div>
 
+    <!-- PROMO SLIDER -->
+    <section class="slider mt-16 max-w-[900px] mx-auto relative">
+        <button
+            class="slider-left absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">‹</button>
 
-    <!-- PROMO CAROUSEL -->
-<div class="relative w-full flex justify-center mt-12">
-
-    <!-- Tombol kiri (diluar overflow-hidden) -->
-    <button id="prevBtn"
-        class="absolute left-[calc(50%-470px)] top-1/2 -translate-y-1/2 
-        bg-white shadow rounded-full w-10 h-10 flex items-center justify-center z-30">
-        ‹
-    </button>
-
-    <!-- Wrapper utama -->
-    <div class="max-w-[900px] w-full overflow-hidden relative">
-
-        <!-- Track -->
-        <div id="carousel" class="flex gap-6 transition-transform duration-300">
-            <img src="/images/image 8 (1).png" class="w-[260px] h-40 rounded-xl shadow object-cover">
-            <img src="/images/image 8 (1).png" class="w-[260px] h-40 rounded-xl shadow object-cover">
-            <img src="/images/image 8 (1).png" class="w-[260px] h-40 rounded-xl shadow object-cover">
-            <img src="/images/image 8 (1).png" class="w-[260px] h-40 rounded-xl shadow object-cover">
-            <img src="/images/image 8 (1).png" class="w-[260px] h-40 rounded-xl shadow object-cover">
+        <div class="overflow-hidden">
+            <div class="slider-track flex gap-6 transition-transform duration-300">
+                <img src="/images/image 8 (1).png" class="w-[260px] h-40 rounded-xl object-cover shrink-0">
+                <img src="/images/image 8 (1).png" class="w-[260px] h-40 rounded-xl object-cover shrink-0">
+                <img src="/images/image 8 (1).png" class="w-[260px] h-40 rounded-xl object-cover shrink-0">
+                <img src="/images/image 8 (1).png" class="w-[260px] h-40 rounded-xl object-cover shrink-0">
+            </div>
         </div>
 
-    </div>
+        <button
+            class="slider-right absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">›</button>
+    </section>
 
-    <!-- Tombol kanan (diluar overflow-hidden) -->
-    <button id="nextBtn"
-        class="absolute right-[calc(50%-470px)] top-1/2 -translate-y-1/2 
-        bg-white shadow rounded-full w-10 h-10 flex items-center justify-center z-30">
-        ›
-    </button>
-
-</div>
-
-
-    <!-- NOW SHOWING SECTION -->
-    <div class="mt-16 w-full flex flex-col items-center">
-
+    <section class="slider mt-20 text-center relative max-w-[900px] mx-auto">
         <h2 class="text-3xl font-bold mb-6">NOW SHOWING IN CINEMAS</h2>
 
-        <div class="relative w-[900px]">
+        <button
+            class="slider-left absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">
+            ‹
+        </button>
 
-            <!-- Tombol kiri -->
-            <button id="nowLeft" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-full shadow p-2 z-10">
-                ‹
-            </button>
+        <div class="overflow-hidden">
+            <div class="slider-track flex gap-6 transition-transform duration-500">
 
-            <!-- Container slider -->
-            <div id="nowSlider" class="overflow-hidden">
-                <div class="flex gap-6 transition-transform duration-500" id="nowTrack">
-                    <img src="/images/image 15.png" class="w-[200px] rounded-xl shadow" />
-                    <img src="/images/image 15.png" class="w-[200px] rounded-xl shadow" />
-                    <img src="/images/image 15.png" class="w-[200px] rounded-xl shadow" />
-                    <img src="/images/image 15.png" class="w-[200px] rounded-xl shadow" />
-                    <img src="/images/image 15.png" class="w-[200px] rounded-xl shadow" />
-                    <img src="/images/image 15.png" class="w-[200px] rounded-xl shadow" />
-                </div>
+                <a href="{{ url('/detail-film?film=dilan') }}" class="w-[200px] shrink-0 text-left block">
+                    <img src="{{ asset('images/image 15.png') }}" class="h-[300px] w-full rounded-xl object-cover">
+                    <p class="mt-2 font-semibold">DILAN 1990</p>
+                </a>
+
+                <a href="{{ url('/detail-film?film=superman') }}" class="w-[200px] shrink-0 text-left block">
+                    <img src="{{ asset('images/image 13.png') }}" class="h-[300px] w-full rounded-xl object-cover">
+                    <p class="mt-2 font-semibold">SUPERMAN</p>
+                </a>
+
+                <a href="{{ url('/detail-film?film=jumbo') }}" class="w-[200px] shrink-0 text-left block">
+                    <img src="{{ asset('images/image 14.png') }}" class="h-[300px] w-full rounded-xl object-cover">
+                    <p class="mt-2 font-semibold">JUMBO</p>
+                </a>
+
+                <a href="{{ url('/detail-film?film=patahhatiyangkupilih') }}"
+                    class="w-[200px] shrink-0 text-left block">
+                    <img src="{{ asset('images/image 77.jpg') }}" class="h-[300px] w-full rounded-xl object-cover">
+                    <p class="mt-2 font-semibold">PATAH HATI YANG KU PILIH</p>
+                </a>
+
+                <a href="{{ url('/detail-film?film=zootopia') }}" class="w-[200px] shrink-0 text-left block">
+                    <img src="{{ asset('images/image 55.jpeg') }}" class="h-[300px] w-full rounded-xl object-cover">
+                    <p class="mt-2 font-semibold">ZOOTOPIA 2</p>
+                </a>
+
             </div>
-
-            <!-- Tombol kanan -->
-            <button id="nowRight"
-                class="absolute right-0 top-1/2 -translate-y-1/2 bg-white rounded-full shadow p-2 z-10">
-                ›
-            </button>
         </div>
-    </div>
 
+        <button
+            class="slider-right absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">
+            ›
+        </button>
+    </section>
+
+
+
+    <section class="slider mt-20 text-center relative max-w-[900px] mx-auto">
+        <h2 class="text-3xl font-bold mb-6">FOR NEXT WEEK</h2>
+
+        <button
+            class="slider-left absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">‹</button>
+
+        <div class="overflow-hidden">
+            <div class="slider-track flex gap-6 transition-transform duration-500">
+                <a href="{{ url('/detail-film?film=avatar') }}" class="w-[200px] shrink-0 text-left block">
+                    <img src="{{ asset('images/avatar.webp') }}" class="h-[300px] w-full rounded-xl object-cover">
+                    <p class="mt-2 font-semibold">THE LEGEND OF AANG : THE LAS AIR BENDER</p>
+                </a>
+                <a href="{{ url('/detail-film?film=jimmy') }}" class="w-[200px] shrink-0 text-left block">
+                    <img src="{{ asset('images/jimmy.jpg') }}" class="h-[300px] w-full rounded-xl object-cover">
+                    <p class="mt-2 font-semibold">18X2 BEYOND YOUTHFUL DAYS</p>
+                </a>
+                <a href="{{ url('/detail-film?film=agak laen') }}" class="w-[200px] shrink-0 text-left block">
+                    <img src="{{ asset('images/agaklaen.jpg') }}" class="h-[300px] w-full rounded-xl object-cover">
+                    <p class="mt-2 font-semibold">AGAK LAEN: MENYALA PANTIKU!</p>
+                </a>
+                <a href="{{ url('/detail-film?film=qorin') }}" class="w-[200px] shrink-0 text-left block">
+                    <img src="{{ asset('images/qorin.jpg') }}" class="h-[300px] w-full rounded-xl object-cover">
+                    <p class="mt-2 font-semibold">QORIN</p>
+                </a>
+                <a href="{{ url('/detail-film?film=avatar2') }}" class="w-[200px] shrink-0 text-left block">
+                    <img src="{{ asset('images/avatar2.jpg') }}" class="h-[300px] w-full rounded-xl object-cover">
+                    <p class="mt-2 font-semibold">AVATAR : FIRE AND ASH</p>
+                </a>
+            </div>
+        </div>
+
+        <button
+            class="slider-right absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">›</button>
+    </section>
+
+
+    <section class="slider mt-20 text-center relative max-w-[900px] mx-auto">
+        <h2 class="text-3xl font-bold mb-6">COMING SOON 2026</h2>
+
+        <button
+            class="slider-left absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">‹</button>
+
+        <div class="overflow-hidden">
+            <div class="slider-track flex gap-6 transition-transform duration-500">
+                <a href="{{ url('/detail-film?film=avenger') }}" class="w-[200px] shrink-0 text-left block">
+                    <img src="{{ asset('images/avenger.webp') }}" class="h-[300px] w-full rounded-xl object-cover">
+                    <p class="mt-2 font-semibold">AVENGERS : DOOMSDAY</p>
+                </a>
+                <a href="{{ url('/detail-film?film=centurygirl') }}" class="w-[200px] shrink-0 text-left block">
+                    <img src="{{ asset('images/centurygirl.jpg') }}" class="h-[300px] w-full rounded-xl object-cover">
+                    <p class="mt-2 font-semibold">20TH CENTURY GIRL</p>
+                </a>
+                <a href="{{ url('/detail-film?film=mummy') }}" class="w-[200px] shrink-0 text-left block">
+                    <img src="{{ asset('images/mummy.jpg') }}" class="h-[300px] w-full rounded-xl object-cover">
+                    <p class="mt-2 font-semibold">LEE CRONIN'S THE MUMMY</p>
+                </a>
+                <a href="{{ url('/detail-film?film=remindersofhim') }}" class="w-[200px] shrink-0 text-left block">
+                    <img src="{{ asset('images/remindersofhim.jpg') }}"
+                        class="h-[300px] w-full rounded-xl object-cover">
+                    <p class="mt-2 font-semibold">REMINDERS OF HIM</p>
+                </a>
+                <a href="{{ url('/detail-film?film=minions') }}" class="w-[200px] shrink-0 text-left block">
+                    <img src="{{ asset('images/minions3.jpg') }}" class="h-[300px] w-full rounded-xl object-cover">
+                    <p class="mt-2 font-semibold">MINIONS 3</p>
+                </a>
+                class="h-[300px] w-full rounded-xl object-cover">
+            </div>
+        </div>
+        </div>
+
+        <button
+            class="slider-right absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">›</button>
+    </section>
+
+
+    <section class="max-w-[900px] mx-auto mt-24">
+        <article class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-md transition
+               flex flex-col md:flex-row gap-8">
+
+            <!-- POSTER -->
+            <img src="{{ asset('images/jimmy.jpg') }}" alt="18x2 Beyond Youthful Days"
+                class="w-full md:w-[220px] h-[330px] object-cover rounded-xl shadow">
+
+            <!-- KONTEN ARTIKEL -->
+            <div class="flex-1 text-left">
+
+                <h2 class="text-3xl font-bold mb-3">
+                    18×2 Beyond Youthful Days: Tentang Cinta, Waktu, dan Kenangan
+                </h2>
+
+                <p class="text-sm text-gray-500 mb-6">
+                    Dipublikasikan • 2025
+                </p>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Film <strong>18×2 Beyond Youthful Days</strong> menyajikan kisah
+                    romantis yang lembut tentang dua orang yang dipertemukan oleh
+                    waktu, lalu dipisahkan oleh keadaan. Cerita ini mengalir pelan,
+                    penuh makna, dan membawa penonton menyusuri kenangan masa muda
+                    yang tak sepenuhnya usai.
+                </p>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Dengan visual yang tenang dan atmosfer emosional yang kuat,
+                    film ini menyoroti bagaimana perasaan yang tertinggal dapat
+                    membentuk seseorang di masa depan. Dialog yang sederhana namun
+                    dalam membuat ceritanya terasa dekat dan realistis.
+                </p>
+
+                <p class="text-gray-700 leading-relaxed">
+                    <em>18×2 Beyond Youthful Days</em> cocok untuk kamu yang menyukai
+                    drama romantis bernuansa reflektif, tentang cinta yang tumbuh,
+                    pergi, dan tetap hidup dalam ingatan.
+                </p>
+
+                <a href="{{ url('/detail-film?film=18x2') }}"
+                    class="inline-block mt-6 text-blue-600 font-semibold hover:underline">
+                    Baca detail film →
+                </a>
+
+            </div>
+        </article>
+    </section>
+
+    <section class="max-w-[900px] mx-auto mt-24">
+        <article class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-md transition
+               flex flex-col md:flex-row gap-8">
+
+            <!-- POSTER -->
+            <img src="{{ asset('images/agaklaen.jpg') }}" alt="Agak Laen 2"
+                class="w-full md:w-[220px] h-[330px] object-cover rounded-xl shadow">
+
+            <!-- KONTEN ARTIKEL -->
+            <div class="flex-1 text-left">
+
+                <h2 class="text-3xl font-bold mb-3">
+                    Agak Laen 2: Komedi Segar dengan Cerita yang Lebih Gila
+                </h2>
+
+                <p class="text-sm text-gray-500 mb-6">
+                    Dipublikasikan • 2025
+                </p>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <strong>Agak Laen 2</strong> kembali menghadirkan kekonyolan khas
+                    dengan gaya humor yang ringan, absurd, dan dekat dengan
+                    kehidupan sehari-hari. Film ini melanjutkan keseruan para
+                    karakter dengan konflik baru yang lebih tidak terduga.
+                </p>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Tidak hanya mengandalkan lelucon, film ini juga menyisipkan
+                    pesan tentang persahabatan, kerja sama, dan bagaimana menghadapi
+                    masalah dengan cara yang tidak biasa. Interaksi antarkarakter
+                    menjadi kekuatan utama yang membuat penonton terus tertawa.
+                </p>
+
+                <p class="text-gray-700 leading-relaxed">
+                    Dengan alur yang lebih cepat dan humor yang lebih berani,
+                    <em>Agak Laen 2</em> cocok menjadi tontonan hiburan untuk melepas
+                    penat bersama teman atau keluarga.
+                </p>
+
+                <a href="{{ url('/detail-film?film=agak-laen-2') }}"
+                    class="inline-block mt-6 text-blue-600 font-semibold hover:underline">
+                    Baca detail film →
+                </a>
+
+            </div>
+        </article>
+    </section>
 
 
 
     <!-- JS -->
     <script>
-        /* ================================
-    SLIDER PROMOSI (fix lengkap)
-================================ */
-        const promoTrack = document.getElementById("carousel");
-        const promoLeft = document.getElementById("prevBtn");
-        const promoRight = document.getElementById("nextBtn");
+        document.querySelectorAll(".slider").forEach(slider => {
+            const track = slider.querySelector(".slider-track");
+            const left = slider.querySelector(".slider-left");
+            const right = slider.querySelector(".slider-right");
 
-        let promoIndex = 0;
+            const itemWidth = track.children[0].offsetWidth + 24;
+            const visibleCount = Math.floor(slider.offsetWidth / itemWidth);
 
-        // ukuran item (260px) + gap (24px)
-        const promoItemWidth = 260 + 24;
+            let index = 0;
 
-        // total container hanya muat 3 item → hitungan benar
-        const maxIndex = promoTrack.children.length - 3;
+            left.onclick = () => slide(-1);
+            right.onclick = () => slide(1);
 
-        function slidePromo(dir) {
-            promoIndex += dir;
-
-            if (promoIndex < 0) promoIndex = 0;
-            if (promoIndex > maxIndex) promoIndex = maxIndex;
-
-            promoTrack.style.transform =
-                `translateX(-${promoIndex * promoItemWidth}px)`;
-        }
-
-        promoLeft.addEventListener("click", () => slidePromo(-1));
-        promoRight.addEventListener("click", () => slidePromo(1));
-
-        let promoAuto = setInterval(() => slidePromo(1), 3000);
-
-        promoTrack.addEventListener("mouseenter", () => clearInterval(promoAuto));
-        promoTrack.addEventListener("mouseleave", () => {
-            promoAuto = setInterval(() => slidePromo(1), 3000);
-        });
-
-
-
-
-
-        /* ======================================
-            SLIDER NOW SHOWING (sesuai HTML)
-        ====================================== */
-        const nowTrack = document.getElementById("nowTrack");
-        const nowLeft = document.getElementById("nowLeft");
-        const nowRight = document.getElementById("nowRight");
-
-        let nowIndex = 0;
-        const nowItemWidth = 200 + 24;
-
-        function slideNow(dir) {
-            nowIndex += dir;
-
-            // tampil 4 item
-            const maxNow = nowTrack.children.length - 4;
-
-            if (nowIndex < 0) nowIndex = 0;
-            if (nowIndex > maxNow) nowIndex = maxNow;
-
-            nowTrack.style.transform =
-                `translateX(-${nowIndex * nowItemWidth}px)`;
-        }
-
-        nowLeft.addEventListener("click", () => slideNow(-1));
-        nowRight.addEventListener("click", () => slideNow(1));
-
-        let nowAuto = setInterval(() => slideNow(1), 3200);
-
-        nowTrack.addEventListener("mouseenter", () => clearInterval(nowAuto));
-        nowTrack.addEventListener("mouseleave", () => {
-            nowAuto = setInterval(() => slideNow(1), 3200);
+            function slide(dir) {
+                const maxIndex = track.children.length - visibleCount;
+                index = Math.max(0, Math.min(index + dir, maxIndex));
+                track.style.transform = `translateX(-${index * itemWidth}px)`;
+            }
         });
     </script>
 
-<script>
-    document.documentElement.classList.remove('dark');
-</script>
-
-<script>
-  tailwind.config = {
-    darkMode: 'class'
-  }
-</script>
-
-
 </body>
 
-</html>/*
+</html>

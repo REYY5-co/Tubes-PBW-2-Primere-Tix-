@@ -6,3 +6,6 @@ Route::get('/', function () {
     return view('homepage');
 });
 
+Route::get('/detail-film', function () {
+    return view('detail');
+});
