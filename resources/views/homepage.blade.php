@@ -20,7 +20,19 @@
     <!-- NAV -->
     <nav class="flex justify-between items-center">
         <h1 class="text-2xl font-bold">PrimeTIX</h1>
-        <div class="w-10 h-10 bg-black rounded-full"></div>
+        <a href="{{ route('akun') }}" class="flex items-center space-x-3 group">
+    <img
+        src="{{ auth()->user()->avatar
+            ? asset('storage/' . auth()->user()->avatar)
+            : asset('images/avatar-default.png') }}"
+        class="w-10 h-10 rounded-full object-cover border group-hover:ring-2 ring-gray-400 transition">
+
+    <span class="text-sm font-semibold text-gray-700 group-hover:text-black">
+        {{ auth()->user()->name }}
+    </span>
+</a>
+
+
     </nav>
 
     <!-- HERO -->
