@@ -53,13 +53,30 @@
             class="slider-left absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">‹</button>
 
         <div class="overflow-hidden">
-            <div class="slider-track flex gap-6 transition-transform duration-300">
-                <img src="/images/image 8 (1).png" class="w-[260px] h-40 rounded-xl object-cover shrink-0">
-                <img src="/images/image 8 (1).png" class="w-[260px] h-40 rounded-xl object-cover shrink-0">
-                <img src="/images/image 8 (1).png" class="w-[260px] h-40 rounded-xl object-cover shrink-0">
-                <img src="/images/image 8 (1).png" class="w-[260px] h-40 rounded-xl object-cover shrink-0">
-            </div>
-        </div>
+    <div class="slider-track flex gap-6 transition-transform duration-300">
+
+        <a href="https://www.mcdonalds.co.id" target="_blank">
+            <img src="/images/image 8 (1).png"
+                 class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer">
+        </a>
+
+        <a href="https://www.mcdonalds.co.id" target="_blank">
+            <img src="/images/image 8 (1).png"
+                 class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer">
+        </a>
+
+        <a href="https://www.mcdonalds.co.id" target="_blank">
+            <img src="/images/image 8 (1).png"
+                 class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer">
+        </a>
+
+        <a href="https://www.mcdonalds.co.id" target="_blank">
+            <img src="/images/image 8 (1).png"
+                 class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer">
+        </a>
+
+    </div>
+</div>
 
         <button
             class="slider-right absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">›</button>
