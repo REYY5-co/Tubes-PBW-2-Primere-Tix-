@@ -8,7 +8,7 @@
 
 @php
     // Ambil slug dari URL: /film/{slug}
-    $slug = request()->route('slug');
+    $slug = request()->query('film', null);
 
     // Data film (dummy)
     $films = [
