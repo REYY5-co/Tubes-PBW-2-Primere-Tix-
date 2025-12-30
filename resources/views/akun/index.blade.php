@@ -129,8 +129,11 @@
 
 <!-- ================= TRANSAKSI & TIKET ================= -->
 <main class="max-w-7xl mx-auto px-6 mt-16">
-    <div class="flex flex-col lg:flex-row lg:space-x-6 space-y-10 lg:space-y-0">
 
+    <!-- Container fleksibel, Tiket Aktif di tengah -->
+    <div class="flex flex-col lg:flex-row lg:space-x-6 space-y-10 lg:space-y-0 justify-center">
+
+        {{-- 
         <!-- TRANSAKSI -->
         <div class="lg:w-1/2">
             <h2 class="text-xl font-bold mb-4 border-b pb-2">Daftar Transaksi</h2>
@@ -163,10 +166,11 @@
                 </button>
             </div>
         </div>
+        --}}
 
-        <!-- TIKET AKTIF -->
+        <!-- RIWAYAT TRANSAKSI -->
         <div class="lg:w-1/2">
-            <h2 class="text-xl font-bold mb-4 border-b pb-2">Tiket Aktif</h2>
+            <h2 class="text-xl font-bold mb-4 border-b pb-2">Riwayat Transaksi</h2>
 
             <div class="bg-white p-4 rounded-xl shadow-lg border border-green-400">
                 <div class="flex space-x-4 mb-4">
@@ -192,9 +196,9 @@
                 </div>
 
                <a href="{{ route('homepage') }}"
-   class="block text-center w-full mt-4 py-2 bg-green-600 text-white rounded-lg">
-    KEMBALI KE HOME
-</a>
+                  class="block text-center w-full mt-4 py-2 bg-green-600 text-white rounded-lg">
+                    KEMBALI KE HOME
+                </a>
 
             </div>
         </div>
