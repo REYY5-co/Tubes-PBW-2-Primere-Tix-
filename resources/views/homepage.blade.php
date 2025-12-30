@@ -20,20 +20,24 @@
     <!-- NAV -->
     <nav class="flex justify-between items-center">
         <h1 class="text-2xl font-bold">PrimeTIX</h1>
-        <a href="{{ route('akun') }}" class="flex items-center space-x-3 group">
-    <img
-        src="{{ auth()->user()->avatar
+
+        @auth
+            <a href="{{ route('akun') ?? '#' }}" class="flex items-center space-x-3">
+                <img src="{{ auth()->user()?->avatar
             ? asset('storage/' . auth()->user()->avatar)
-            : asset('images/avatar-default.png') }}"
-        class="w-10 h-10 rounded-full object-cover border group-hover:ring-2 ring-gray-400 transition">
+            : asset('images/avatar-default.png') }}" class="w-10 h-10 rounded-full object-cover border">
 
-    <span class="text-sm font-semibold text-gray-700 group-hover:text-black">
-        {{ auth()->user()->name }}
-    </span>
-</a>
-
-
+                <span class="text-sm font-semibold">
+                    {{ auth()->user()->name }}
+                </span>
+            </a>
+        @else
+            <a href="{{ route('login') }}" class="px-4 py-2 border rounded-full text-sm">
+                Login
+            </a>
+        @endauth
     </nav>
+
 
     <!-- HERO -->
     <div class="text-center mt-12">
@@ -53,30 +57,30 @@
             class="slider-left absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">‹</button>
 
         <div class="overflow-hidden">
-    <div class="slider-track flex gap-6 transition-transform duration-300">
+            <div class="slider-track flex gap-6 transition-transform duration-300">
 
-        <a href="https://www.mcdonalds.co.id" target="_blank">
-            <img src="/images/image 8 (1).png"
-                 class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer">
-        </a>
+                <a href="https://www.mcdonalds.co.id" target="_blank">
+                    <img src="/images/image 8 (1).png"
+                        class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer">
+                </a>
 
-        <a href="https://www.mcdonalds.co.id" target="_blank">
-            <img src="/images/image 8 (1).png"
-                 class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer">
-        </a>
+                <a href="https://www.mcdonalds.co.id" target="_blank">
+                    <img src="/images/image 8 (1).png"
+                        class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer">
+                </a>
 
-        <a href="https://www.mcdonalds.co.id" target="_blank">
-            <img src="/images/image 8 (1).png"
-                 class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer">
-        </a>
+                <a href="https://www.mcdonalds.co.id" target="_blank">
+                    <img src="/images/image 8 (1).png"
+                        class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer">
+                </a>
 
-        <a href="https://www.mcdonalds.co.id" target="_blank">
-            <img src="/images/image 8 (1).png"
-                 class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer">
-        </a>
+                <a href="https://www.mcdonalds.co.id" target="_blank">
+                    <img src="/images/image 8 (1).png"
+                        class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer">
+                </a>
 
-    </div>
-</div>
+            </div>
+        </div>
 
         <button
             class="slider-right absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">›</button>
@@ -92,32 +96,17 @@
 
         <div class="overflow-hidden">
             <div class="slider-track flex gap-6 transition-transform duration-500">
+                @foreach ($nowShowing as $film)
+                    <a href="{{ url('/detail-film/' . $film->slug) }}" class="w-[200px] shrink-0 text-left block">
 
-                <a href="{{ url('/detail-film?film=dilan') }}" class="w-[200px] shrink-0 text-left block">
-                    <img src="{{ asset('images/image 15.png') }}" class="h-[300px] w-full rounded-xl object-cover">
-                    <p class="mt-2 font-semibold">DILAN 1990</p>
-                </a>
+                        <img src="{{ asset('storage/' . $film->poster) }}" class="h-[300px] w-full rounded-xl object-cover">
 
-                <a href="{{ url('/detail-film?film=superman') }}" class="w-[200px] shrink-0 text-left block">
-                    <img src="{{ asset('images/image 13.png') }}" class="h-[300px] w-full rounded-xl object-cover">
-                    <p class="mt-2 font-semibold">SUPERMAN</p>
-                </a>
 
-                <a href="{{ url('/detail-film?film=jumbo') }}" class="w-[200px] shrink-0 text-left block">
-                    <img src="{{ asset('images/image 14.png') }}" class="h-[300px] w-full rounded-xl object-cover">
-                    <p class="mt-2 font-semibold">JUMBO</p>
-                </a>
-
-                <a href="{{ url('/detail-film?film=patahhatiyangkupilih') }}"
-                    class="w-[200px] shrink-0 text-left block">
-                    <img src="{{ asset('images/image 77.jpg') }}" class="h-[300px] w-full rounded-xl object-cover">
-                    <p class="mt-2 font-semibold">PATAH HATI YANG KU PILIH</p>
-                </a>
-
-                <a href="{{ url('/detail-film?film=zootopia') }}" class="w-[200px] shrink-0 text-left block">
-                    <img src="{{ asset('images/image 55.jpeg') }}" class="h-[300px] w-full rounded-xl object-cover">
-                    <p class="mt-2 font-semibold">ZOOTOPIA 2</p>
-                </a>
+                        <p class="mt-2 font-semibold uppercase">
+                            {{ $film->title }}
+                        </p>
+                    </a>
+                @endforeach
 
             </div>
         </div>
@@ -195,7 +184,7 @@
                     <img src="{{ asset('images/minions3.jpg') }}" class="h-[300px] w-full rounded-xl object-cover">
                     <p class="mt-2 font-semibold">MINIONS 3</p>
                 </a>
-                class="h-[300px] w-full rounded-xl object-cover">
+
             </div>
         </div>
         </div>

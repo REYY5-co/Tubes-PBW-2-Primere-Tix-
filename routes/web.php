@@ -3,15 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
 | PUBLIC PAGES
 |--------------------------------------------------------------------------
 */
-Route::get('/', function () {
-    return view('homepage');
-})->name('homepage'); // ✅ FIX UTAMA
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/detail-film', function () {
     return view('detail');
