@@ -97,7 +97,7 @@
         <div class="overflow-hidden">
             <div class="slider-track flex gap-6 transition-transform duration-500">
                 @foreach ($nowShowing as $film)
-                    <a href="{{ url('/detail-film/' . $film->slug) }}" class="w-[200px] shrink-0 text-left block">
+                    <a href="{{ route('film.detail', $film->slug) }}"class="w-[200px] shrink-0 text-left block">
 
                         <img src="{{ asset('storage/' . $film->poster) }}" class="h-[300px] w-full rounded-xl object-cover">
 

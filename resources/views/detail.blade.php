@@ -8,7 +8,7 @@
 
 @php
     // Ambil slug dari URL: /film/{slug}
-    $slug = request()->query('film', null);
+   
 
     // Data film (dummy)
     $films = [
@@ -105,10 +105,11 @@
 
                 <!-- ACTION -->
                 <div class="mt-10">
-                    <button
-                        class="px-8 py-3 bg-black text-white rounded-full text-lg hover:bg-gray-800 transition">
-                        🎟 Book Ticket
-                    </button>
+                    <a href="{{ route('jadwal') }}"
+   class="inline-block px-8 py-3 bg-black text-white rounded-full text-lg hover:bg-gray-800 transition">
+    🎟 Book Ticket
+</a>
+
                 </div>
             </div>
         </div>

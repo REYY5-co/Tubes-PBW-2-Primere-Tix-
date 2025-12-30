@@ -191,10 +191,11 @@
                     </div>
                 </div>
 
-                <a href="{{ route('film.detail', 'jumbo') }}"
-                   class="block text-center w-full mt-4 py-2 bg-green-600 text-white rounded-lg">
-                    LIHAT DETAIL
-                </a>
+               <a href="{{ route('homepage') }}"
+   class="block text-center w-full mt-4 py-2 bg-green-600 text-white rounded-lg">
+    KEMBALI KE HOME
+</a>
+
             </div>
         </div>
 
