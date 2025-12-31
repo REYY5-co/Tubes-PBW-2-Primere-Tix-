@@ -19,26 +19,32 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    public function login(Request $request)
+    // Generate CAPTCHA JSON
+    public function captcha()
     {
-        // 1️⃣ Validasi input
+        $captcha = substr(str_shuffle('ABCDEFGHJKLMNPQRSTUVWXYZ23456789'), 0, 5);
+        session(['captcha' => $captcha]);
+
+        return response()->json(['captcha' => $captcha]);
+    }
+
+    // Login POST
+    public function loginPost(Request $request)
+    {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
             'captcha_input' => 'required'
         ]);
 
-        // 2️⃣ Validasi CAPTCHA
         if ($request->captcha_input != session('captcha')) {
             return back()->withErrors([
                 'captcha' => 'Captcha salah'
             ])->withInput();
         }
 
-        // 3️⃣ Coba login
         $credentials = $request->only('email', 'password');
 
-        // ✅ BAGIAN INI DIGANTI
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
@@ -49,11 +55,11 @@ class AuthController extends Controller
             return redirect()->route('homepage');
         }
 
-        // 4️⃣ Gagal login
         return back()->withErrors([
             'email' => 'Email atau password salah'
         ])->withInput();
     }
+
 
     public function register(Request $request)
     {
@@ -81,4 +87,6 @@ class AuthController extends Controller
 
         return redirect('/login');
     }
+
+    
 }

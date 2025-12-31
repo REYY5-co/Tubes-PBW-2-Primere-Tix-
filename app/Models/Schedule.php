@@ -21,4 +21,5 @@ class Schedule extends Model
     {
         return $this->hasMany(Showtime::class);
     }
+
 }

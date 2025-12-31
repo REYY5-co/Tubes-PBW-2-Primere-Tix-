@@ -6,13 +6,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Transaction;
 
 class ProfileController extends Controller
 {
     public function index()
     {
+        $transactions = Transaction::with([
+                'showtime.schedule.cinema',
+                'showtime.film'
+            ])
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->get();
+
         return view('akun.index', [
-            'user' => Auth::user()
+            'user' => Auth::user(),
+            'transactions' => $transactions
         ]);
     }
 
@@ -33,23 +43,18 @@ class ProfileController extends Controller
             'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        // Jika upload avatar baru
         if ($request->hasFile('avatar')) {
-
-            // Hapus avatar lama jika ada
             if ($user->avatar) {
                 Storage::disk('public')->delete($user->avatar);
             }
 
-            // Simpan avatar baru
-            $path = $request->file('avatar')->store('avatars', 'public');
-            $user->avatar = $path;
+            $user->avatar = $request->file('avatar')->store('avatars', 'public');
         }
 
-        // Update data profil
-        $user->name  = $request->name;
-        $user->email = $request->email;
-        $user->save();
+        $user->update([
+            'name'  => $request->name,
+            'email' => $request->email,
+        ]);
 
         return back()->with('success_profile', 'Profil berhasil diperbarui');
     }
@@ -64,13 +69,12 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         if (!Hash::check($request->old_password, $user->password)) {
-            return back()->withErrors([
-                'old_password' => 'Password lama salah'
-            ]);
+            return back()->withErrors(['old_password' => 'Password lama salah']);
         }
 
-        $user->password = Hash::make($request->password);
-        $user->save();
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
 
         return back()->with('success_password', 'Password berhasil diubah');
     }

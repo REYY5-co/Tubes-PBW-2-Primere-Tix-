@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Showtime;
 use App\Models\Schedule;
+use App\Models\Transaction;
 use Midtrans\Config;
 use Midtrans\Snap;
 use Carbon\Carbon;
@@ -12,54 +13,29 @@ use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
-    /**
-     * HALAMAN KURSI
-     * WAJIB lewat alur pilih lokasi → tanggal → jam
-     */
+    // HALAMAN SEAT
     public function seats($showtimeId)
     {
-        $showtime = Showtime::with(['studio', 'schedule.cinema'])->find($showtimeId);
+        $showtime = Showtime::with(['studio', 'schedule.cinema', 'film'])->findOrFail($showtimeId);
 
-        if (!$showtime) {
-            abort(404, "Showtime tidak ditemukan");
-        }
+        $datetime = Carbon::parse($showtime->schedule->date->format('Y-m-d') . ' ' . $showtime->time);
 
-        if (!$showtime->studio || !$showtime->schedule) {
-            abort(404, "Studio atau Schedule tidak ditemukan");
-        }
-
-        $date = $showtime->schedule->date;
-        $datetime = Carbon::parse($date->format('Y-m-d') . ' ' . $showtime->time);
-
-        // ❌ tanggal lewat
-        if ($date->isPast() && !$date->isToday()) {
-            abort(404);
-        }
-
-        // ❌ jam lewat hari ini
-        if ($date->isToday() && $datetime->isPast()) {
-            abort(404);
-        }
+        if ($showtime->schedule->date->isPast() && !$showtime->schedule->date->isToday()) abort(404);
+        if ($showtime->schedule->date->isToday() && $datetime->isPast()) abort(404);
 
         return view('seat', compact('showtime'));
     }
 
-    /**
-     * AJAX: ambil jam tayang berdasarkan schedule
-     */
+    // AJAX: GET SHOWTIMES
     public function getShowtimes($scheduleId)
     {
         $schedule = Schedule::with('showtimes.studio')->find($scheduleId);
-
-        if (!$schedule) {
-            return response()->json([]);
-        }
+        if (!$schedule) return response()->json([]);
 
         $now = now();
 
         $showtimes = $schedule->showtimes
             ->sortBy('time')
-            ->values()
             ->map(function ($showtime) use ($schedule, $now) {
                 if (!$showtime->studio) return null;
 
@@ -74,61 +50,75 @@ class BookingController extends Controller
         return response()->json($showtimes);
     }
 
-    /**
-     * Halaman Payment
-     */
+    // HALAMAN PAYMENT
     public function payment(Request $request)
     {
-        $selectedSeats = json_decode($request->input('selected_seats'), true);
-        $showtimeId = $request->input('showtime_id');
+        // Reset session lama supaya tidak salah film
+        session()->forget(['order', 'showtime_id']);
 
-        $showtime = Showtime::with(['schedule.cinema', 'studio'])->find($showtimeId);
+        $selectedSeats = json_decode($request->selected_seats, true);
+        $showtimeId = $request->showtime_id;
 
-        if (!$showtime) abort(404, "Showtime tidak ditemukan");
+        $showtime = Showtime::with(['schedule.cinema', 'studio'])->findOrFail($showtimeId);
 
-        $ticketPrice = 50000; // contoh harga tiket
+        $ticketPrice = 50000;
         $totalAmount = count($selectedSeats) * $ticketPrice;
 
         $order = [
-            'movie' => $showtime->movie->title ?? 'Jumbo',
-            'cinema' => $showtime->schedule->cinema->name ?? 'Dummy Cinema',
-            'poster' => $showtime->movie->poster ?? 'JUMBO.jpg',
+            'movie' => 'JUMBO', // <-- selalu JUMBO
+            'cinema' => $showtime->schedule->cinema->name,
+            'studio' => $showtime->studio->name,
+            'poster' => 'JUMBO.jpg', // <-- selalu poster JUMBO
             'date' => $showtime->schedule->date->format('d M Y'),
+            'time' => $showtime->time,
             'ticket_qty' => count($selectedSeats),
             'price_per_ticket' => $ticketPrice,
             'total_amount' => $totalAmount,
             'seats' => $selectedSeats,
         ];
 
-        // Simpan di session untuk proses Midtrans nanti
-        session(['order' => $order]);
+        session([
+            'order' => $order,
+            'showtime_id' => $showtimeId
+        ]);
 
         return view('payment', compact('order'));
     }
 
-    /**
-     * Process Payment via Midtrans
-     */
+
+    // PROSES MIDTRANS
     public function paymentProcess(Request $request)
     {
-        $order = session('order'); // ambil data order dari session
-        if (!$order) {
-            return response()->json(['error' => 'Order tidak ditemukan'], 404);
+        $order = session('order');
+        $showtimeId = session('showtime_id');
+
+        if (!$order || !$showtimeId) {
+            return response()->json(['error' => 'Order tidak valid'], 400);
         }
 
         $user = Auth::user();
-        if (!$user) {
-            return response()->json(['error' => 'User tidak login'], 403);
-        }
+        if (!$user) return response()->json(['error' => 'Unauthorized'], 403);
 
-        \Midtrans\Config::$serverKey = config('midtrans.server_key');
-        \Midtrans\Config::$isProduction = false;
-        \Midtrans\Config::$isSanitized = true;
-        \Midtrans\Config::$is3ds = true;
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = false;
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
+        $orderId = 'TIX-' . time();
+
+        $transaction = Transaction::create([
+            'user_id' => $user->id,
+            'showtime_id' => $showtimeId,
+            'order_id' => $orderId,
+            'total_price' => $order['total_amount'],
+            'status' => 'pending',
+            'selected_seats' => json_encode($order['seats']),
+            'expired_at' => now()->addWeek(),
+        ]);
 
         $params = [
             'transaction_details' => [
-                'order_id' => 'TIX'.time(),
+                'order_id' => $orderId,
                 'gross_amount' => $order['total_amount'],
             ],
             'customer_details' => [
@@ -137,24 +127,39 @@ class BookingController extends Controller
             ],
         ];
 
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
-        session(['order_id' => $params['transaction_details']['order_id']]);
+        $snapToken = Snap::getSnapToken($params);
 
-        return response()->json([
-            'snap_token' => $snapToken
+        session([
+            'order_id' => $orderId,
+            'transaction_id' => $transaction->id
         ]);
+
+        return response()->json(['snap_token' => $snapToken]);
     }
 
-    /**
-     * Halaman status pembayaran
-     */
+    // STATUS PEMBAYARAN
     public function paymentStatus(Request $request)
     {
-        $orderId = session('order_id') ?? 'N/A';
-        $status = $request->input('status') ?? 'PENDING';
-        $order = session('order') ?? [];
+        $orderId = session('order_id');
+        $status = $request->status;
+
+        if ($orderId) {
+            $transaction = Transaction::where('order_id', $orderId)->first();
+
+            if ($transaction) {
+                if ($status === 'success') {
+                    $transaction->update([
+                        'status' => 'paid',
+                        'paid_at' => now()
+                    ]);
+                } elseif ($status === 'error') {
+                    $transaction->update(['status' => 'failed']);
+                }
+            }
+        }
+
+        $order = session('order');
 
         return view('payment_status', compact('orderId', 'status', 'order'));
     }
-
 }

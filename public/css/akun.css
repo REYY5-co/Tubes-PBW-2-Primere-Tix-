@@ -1,0 +1,102 @@
+/* BODY */
+body {
+    margin: 0;
+    font-family: poppins, sans-serif;
+    background: #f1f5f9;
+    cursor: url("../images/cursor-popcorn.png") 16 16, auto;
+}
+
+/* Header */
+.header {
+    height: 220px;
+    padding: 20px 40px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)),
+        url("../images/cinema-images.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.header .logo {
+    height: 18px;
+    width: auto;
+}
+
+/* Logout Button */
+.logout-btn {
+    background: #dc2626;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: #b91c1c;
+}
+
+/* Container umum */
+.container {
+    max-width: 900px;
+    margin: -40px auto 0;
+    padding: 0 20px;
+}
+
+/* Card umum */
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+/* Tombol */
+.btn {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: #4b5563;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Ticket / Transaction Card */
+.ticket-card {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.ticket-card img {
+    width: 80px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.ticket-details {
+    flex: 1;
+}
+
+.ticket-details p {
+    margin: 2px 0;
+}
+
+.ticket-details .border-top {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 8px;
+    margin-top: 8px;
+}
+
+.ticket-status {
+    font-weight: bold;
+    color: #16a34a; /* hijau */
+}

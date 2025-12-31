@@ -4,21 +4,21 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Models\Transaction;
 
 class Kernel extends ConsoleKernel
 {
-    /**
-     * Define the application's command schedule.
-     */
     protected function schedule(Schedule $schedule): void
     {
-        // Auto generate schedule & showtime setiap hari
+        // Hapus transaksi yang expired tiap hari jam 00:05
+        $schedule->call(function () {
+            Transaction::where('expired_at', '<', now())->delete();
+        })->dailyAt('00:05');
+
+        // Contoh: Auto generate schedule & showtime setiap hari
         $schedule->command('schedule:auto')->dailyAt('00:01');
     }
 
-    /**
-     * Register the commands for the application.
-     */
     protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');

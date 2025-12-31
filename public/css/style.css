@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
@@ -10,7 +10,7 @@ body {
     color: #000;
 }
 
-/* ================= NAVBAR ================= */
+
 .navbar {
     display: flex;
     justify-content: space-between;
