@@ -8,7 +8,7 @@ use App\Http\Controllers\MovieController;
 use App\Http\Controllers\BookingController;
 
 /* PUBLIC */
-Route::get('/homepage', [HomeController::class, 'index'])->name('homepage');
+Route::get('/', [HomeController::class, 'index'])->name('homepage');
 Route::get('/jadwal', [MovieController::class, 'schedule'])->name('jadwal');
 Route::get('/film/{slug}', function ($slug) {
     return view('detail', compact('slug'));
