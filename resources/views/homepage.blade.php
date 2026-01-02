@@ -87,7 +87,7 @@
             <h2 class="text-3xl font-bold mb-6 text-center">{{ $title }}</h2>
 
             <button
-                class="slider-left absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">
+                class="slider-left absolute -left-10 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">
                 ‹
             </button>
 
@@ -105,56 +105,13 @@
             </div>
 
             <button
-                class="slider-right absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">
+                class="slider-right absolute -right-10 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">
                 ›
             </button>
         </section>
     @endforeach
 
-    <section class="max-w-[900px] mx-auto mt-24">
-        <article
-            class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-md transition flex flex-col md:flex-row gap-8">
-            <!-- POSTER --> <img src="{{ asset('storage/films/jimmy.jpg') }}" alt="18x2 Beyond Youthful Days"
-                class="w-full md:w-[220px] h-[330px] object-cover rounded-xl shadow"> <!-- KONTEN ARTIKEL -->
-            <div class="flex-1 text-left">
-                <h2 class="text-3xl font-bold mb-3"> 18×2 Beyond Youthful Days: Tentang Cinta, Waktu, dan Kenangan </h2>
-                <p class="text-sm text-gray-500 mb-6"> Dipublikasikan • 2025 </p>
-                <p class="text-gray-700 leading-relaxed mb-4"> Film <strong>18×2 Beyond Youthful Days</strong>
-                    menyajikan kisah romantis yang lembut tentang dua orang yang dipertemukan oleh waktu, lalu
-                    dipisahkan oleh keadaan. Cerita ini mengalir pelan, penuh makna, dan membawa penonton menyusuri
-                    kenangan masa muda yang tak sepenuhnya usai. </p>
-                <p class="text-gray-700 leading-relaxed mb-4"> Dengan visual yang tenang dan atmosfer emosional yang
-                    kuat, film ini menyoroti bagaimana perasaan yang tertinggal dapat membentuk seseorang di masa depan.
-                    Dialog yang sederhana namun dalam membuat ceritanya terasa dekat dan realistis. </p>
-                <p class="text-gray-700 leading-relaxed"> <em>18×2 Beyond Youthful Days</em> cocok untuk kamu yang
-                    menyukai drama romantis bernuansa reflektif, tentang cinta yang tumbuh, pergi, dan tetap hidup dalam
-                    ingatan. </p> <a href="{{ url('/detail-film?film=18x2') }}"
-                    class="inline-block mt-6 text-blue-600 font-semibold hover:underline"> Baca detail film → </a>
-            </div>
-        </article>
-    </section>  
-    <section class="max-w-[900px] mx-auto mt-24">
-        <article
-            class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-md transition flex flex-col md:flex-row gap-8">
-            <!-- POSTER --> <img src="{{ asset('/storage/films/agaklaen.jpg') }}" alt="Agak Laen 2"
-                class="w-full md:w-[220px] h-[330px] object-cover rounded-xl shadow"> <!-- KONTEN ARTIKEL -->
-            <div class="flex-1 text-left">
-                <h2 class="text-3xl font-bold mb-3"> Agak Laen 2: Komedi Segar dengan Cerita yang Lebih Gila </h2>
-                <p class="text-sm text-gray-500 mb-6"> Dipublikasikan • 2025 </p>
-                <p class="text-gray-700 leading-relaxed mb-4"> <strong>Agak Laen 2</strong> kembali menghadirkan
-                    kekonyolan khas dengan gaya humor yang ringan, absurd, dan dekat dengan kehidupan sehari-hari. Film
-                    ini melanjutkan keseruan para karakter dengan konflik baru yang lebih tidak terduga. </p>
-                <p class="text-gray-700 leading-relaxed mb-4"> Tidak hanya mengandalkan lelucon, film ini juga
-                    menyisipkan pesan tentang persahabatan, kerja sama, dan bagaimana menghadapi masalah dengan cara
-                    yang tidak biasa. Interaksi antarkarakter menjadi kekuatan utama yang membuat penonton terus
-                    tertawa. </p>
-                <p class="text-gray-700 leading-relaxed"> Dengan alur yang lebih cepat dan humor yang lebih berani,
-                    <em>Agak Laen 2</em> cocok menjadi tontonan hiburan untuk melepas penat bersama teman atau keluarga.
-                </p> <a href="{{ url('/detail-film?film=agak-laen-2') }}"
-                    class="inline-block mt-6 text-blue-600 font-semibold hover:underline"> Baca detail film → </a>
-            </div>
-        </article>
-    </section>
+
 
     <!-- JS -->
     <script>
@@ -201,6 +158,67 @@
             });
         });
     </script>
+
+
+   <footer class="mt-32 bg-gradient-to-b from-[#081B2F] to-[#041423] text-gray-300">
+    <div class="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+
+        <!-- BRAND -->
+        <div>
+            <h2 class="text-3xl font-bold text-white mb-4">PrimeTIX</h2>
+            <p class="text-sm leading-relaxed">
+                PrimeTIX adalah platform informasi dan pemesanan film di Indonesia.
+                Temukan film yang sedang tayang, film mendatang, dan rencanakan
+                pengalaman menontonmu dengan mudah.
+            </p>
+        </div>
+
+        <!-- MENU -->
+        <div>
+            <h3 class="text-white font-semibold mb-4">Jelajahi</h3>
+            <ul class="space-y-3 text-sm">
+                <li><a href="#" class="hover:text-white transition">Sedang Tayang</a></li>
+                <li><a href="#" class="hover:text-white transition">Minggu Depan</a></li>
+                <li><a href="#" class="hover:text-white transition">Akan Datang</a></li>
+                <li><a href="#" class="hover:text-white transition">Trailer & Cuplikan</a></li>
+            </ul>
+        </div>
+
+        <!-- INFO -->
+        <div>
+            <h3 class="text-white font-semibold mb-4">Tentang</h3>
+            <ul class="space-y-3 text-sm">
+                <li><a href="#" class="hover:text-white transition">Tentang PrimeTIX</a></li>
+                <li><a href="#" class="hover:text-white transition">Kontak Kami</a></li>
+                <li><a href="#" class="hover:text-white transition">Kebijakan Privasi</a></li>
+                <li><a href="#" class="hover:text-white transition">Syarat & Ketentuan</a></li>
+            </ul>
+        </div>
+
+        <!-- SOSIAL -->
+        <div>
+            <h3 class="text-white font-semibold mb-4">Ikuti Kami</h3>
+            <p class="text-sm mb-4">Tetap terhubung dengan PrimeTIX</p>
+
+            <div class="flex gap-4">
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-white" viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm8.5 1.5h-8.5A4.25 4.25 0 003.5 7.75v8.5A4.25 4.25 0 007.75 20.5h8.5a4.25 4.25 0 004.25-4.25v-8.5A4.25 4.25 0 0016.25 3.5z"/><path d="M12 7a5 5 0 100 10 5 5 0 000-10zm0 1.5a3.5 3.5 0 110 7 3.5 3.5 0 010-7z"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+                </a>
+
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-white" viewBox="0 0 24 24"><path d="M23.5 6.2s-.2-1.7-.8-2.5c-.7-.8-1.4-.8-1.8-.9C18.4 2.5 12 2.5 12 2.5h0s-6.4 0-8.9.3c-.4.1-1.1.1-1.8.9-.6.8-.8 2.5-.8 2.5S.2 8.3.2 10.4v1.2c0 2.1.3 4.2.3 4.2s.2 1.7.8 2.5c.7.8 1.6.8 2 .9 1.4.1 8.7.3 8.7.3s6.4 0 8.9-.3c.4-.1 1.1-.1 1.8-.9.6-.8.8-2.5.8-2.5s.3-2.1.3-4.2v-1.2c0-2.1-.3-4.2-.3-4.2zM9.5 14.6V7.4l6.2 3.6-6.2 3.6z"/></svg>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- COPYRIGHT -->
+    <div class="border-t border-white/10 py-6 text-center text-sm text-gray-400">
+        © 2025 PrimeTIX. Seluruh hak cipta dilindungi.
+    </div>
+</footer>
+
 
 </body>
 
