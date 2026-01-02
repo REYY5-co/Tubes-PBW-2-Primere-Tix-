@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 use Carbon\Carbon;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -19,6 +21,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-       Carbon::setLocale('id');
+        // Locale Indonesia
+        Carbon::setLocale('id');
+
+        // FIX NGROK + HTTPS (INI PENTING)
+        if (app()->environment('local')) {
+            URL::forceScheme('https');
+        }
     }
 }

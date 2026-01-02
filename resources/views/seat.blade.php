@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>PrimeTIX - Pilih Kursi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('css/seat.css') }}">
 </head>
 <body>

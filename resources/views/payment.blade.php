@@ -108,9 +108,19 @@
                     <span>Rp{{ number_format($order['total_amount'],0,',','.') }}</span>
                 </div>
 
-                <button id="payBtn" class="mt-6 w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800">
+                @guest
+                <button
+                    onclick="alert('Silakan login terlebih dahulu untuk melanjutkan pembayaran'); window.location.href='{{ route('login') }}';"
+                    class="mt-6 w-full bg-gray-400 text-white py-3 rounded-lg cursor-not-allowed">
                     Bayar
                 </button>
+                @else
+                <button id="payBtn"
+                    class="mt-6 w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800">
+                    Bayar
+                </button>
+                @endguest
+
             </div>
         </div>
 
@@ -118,39 +128,53 @@
 </div>
 
 <script>
-document.getElementById('payBtn').onclick = function () {
-    const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+document.getElementById('payBtn')?.addEventListener('click', function () {
 
     fetch("{{ route('payment.process') }}", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "X-CSRF-TOKEN": "{{ csrf_token() }}"
-        },
-        body: JSON.stringify({ payment_method: paymentMethod })
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.snap_token) {
-            snap.pay(data.snap_token, {
-                onSuccess: function(result){
-                    window.location.href = "{{ route('payment.status') }}?status=success";
-                },
-                onPending: function(result){
-                    window.location.href = "{{ route('payment.status') }}?status=pending";
-                },
-                onError: function(result){
-                    window.location.href = "{{ route('payment.status') }}?status=error";
-                },
-                onClose: function(){
-                    alert("Anda menutup popup pembayaran.");
-                }
-            });
         }
     })
-    .catch(() => alert("Terjadi kesalahan koneksi."));
-};
+    .then(async res => {
+        if (res.status === 401) {
+            const data = await res.json();
+            alert(data.message);
+            window.location.href = "{{ route('login') }}";
+            return null;
+        }
+
+        if (!res.ok) {
+            throw new Error('Request error');
+        }
+
+        return res.json();
+    })
+    .then(data => {
+        if (!data) return;
+
+        snap.pay(data.snap_token, {
+            onSuccess: function(){
+                window.location.href = "{{ route('payment.status') }}?status=success";
+            },
+            onPending: function(){
+                window.location.href = "{{ route('payment.status') }}?status=pending";
+            },
+            onError: function(){
+                window.location.href = "{{ route('payment.status') }}?status=error";
+            },
+            onClose: function(){
+                alert("Pembayaran dibatalkan.");
+            }
+        });
+    })
+    .catch(() => {
+        alert("Terjadi kesalahan koneksi.");
+    });
+});
 </script>
+
 
 </body>
 </html>

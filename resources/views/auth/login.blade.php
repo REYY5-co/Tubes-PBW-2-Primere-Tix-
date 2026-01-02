@@ -104,6 +104,13 @@
 
         <button type="submit">Login</button>
     </form>
+    <div style="margin-top:14px; font-size:14px; color:#6b7280;">
+        Belum punya akun?
+        <a href="/register" style="color:#111827; font-weight:500; text-decoration:none;">
+            Register
+        </a>
+    </div>
+
 </div>
 
 <footer>

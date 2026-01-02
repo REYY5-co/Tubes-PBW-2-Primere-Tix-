@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>PrimeTIX - Jadwal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
