@@ -24,8 +24,8 @@ class AppServiceProvider extends ServiceProvider
         // Locale Indonesia
         Carbon::setLocale('id');
 
-        // FIX NGROK + HTTPS (INI PENTING)
-        if (app()->environment('local')) {
+        
+        if (app()->environment('production')) {
             URL::forceScheme('https');
         }
     }
