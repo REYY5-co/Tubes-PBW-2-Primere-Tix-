@@ -6,10 +6,12 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\PaymentController;
 
 /* PUBLIC */
 Route::get('/', [HomeController::class, 'index'])->name('homepage');
 Route::get('/jadwal', [MovieController::class, 'schedule'])->name('jadwal');
+
 Route::get('/film/{slug}', function ($slug) {
     return view('detail', compact('slug'));
 })->name('film.detail');
@@ -28,20 +30,30 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 /* BOOKING FLOW */
-Route::get('/ajax/showtimes/{schedule}', [BookingController::class, 'getShowtimes'])->name('ajax.showtimes');
-Route::get('/seats/{showtime}', [BookingController::class, 'seats'])->name('seats');
-Route::post('/book-seat', [BookingController::class, 'bookSeat'])->name('book.seat');
+Route::get('/ajax/showtimes/{schedule}', [BookingController::class, 'getShowtimes'])
+    ->name('ajax.showtimes');
+
+Route::get('/seats/{showtime}', [BookingController::class, 'seats'])
+    ->name('seats');
+
+Route::post('/book-seat', [BookingController::class, 'bookSeat'])
+    ->name('book.seat');
+
+/* SEATS */
+Route::get('/seats/{showtime}', [BookingController::class, 'seats'])
+    ->name('seats');
 
 /* PAYMENT */
-Route::post('/payment', [BookingController::class, 'payment'])->name('payment');
+Route::get('/payment', [PaymentController::class, 'showPaymentPage'])
+    ->name('payment');
 
-Route::post('/payment/process', [BookingController::class, 'paymentProcess'])
+Route::post('/payment/process', [PaymentController::class, 'processPayment'])
     ->name('payment.process')
-    ->middleware('auth'); // 🔐 WAJIB
+    ->middleware('auth');
 
-Route::get('/payment/status', [BookingController::class, 'paymentStatus'])
-    ->name('payment.status');
-
+Route::get('/payment/status', [PaymentController::class, 'paymentFinish'])
+    ->name('payment.status')
+    ->middleware('auth');
 
 /* USER ACCOUNT */
 Route::middleware('auth')->group(function () {

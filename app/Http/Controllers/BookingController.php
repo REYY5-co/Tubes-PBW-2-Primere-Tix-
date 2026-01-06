@@ -38,10 +38,11 @@ class BookingController extends Controller
     $bookedSeats = Transaction::where('showtime_id', $showtime->id)
         ->where('status', 'paid')
         ->pluck('selected_seats')
-        ->flatMap(fn ($seats) => json_decode($seats, true))
+        ->flatMap(fn ($seats) => $seats ?? [])
         ->unique()
         ->values()
         ->toArray();
+
 
     return view('seat', compact('showtime', 'bookedSeats'));
 }
