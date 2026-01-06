@@ -6,6 +6,7 @@ use App\Models\Cinema;
 use App\Models\Schedule;
 use Carbon\Carbon;
 use App\Models\Film;
+use App\Models\Showtime;
 
 class MovieController extends Controller
 {
@@ -28,22 +29,31 @@ class MovieController extends Controller
 
     // ✅ SELALU 7 HARI
     for ($i = 0; $i < 7; $i++) {
-        $date = $today->copy()->addDays($i);
+    $date = $today->copy()->addDays($i);
 
-        $schedule = Schedule::where('cinema_id', $cinema->id)
-            ->whereDate('date', $date)
-            ->first();
+    $schedule = Schedule::firstOrCreate(
+        [
+            'cinema_id' => $cinema->id,
+            'date' => $date->toDateString(),
+        ]
+    );
 
-        if ($schedule) {
-            $dates->push($schedule);
-        } else {
-            // fallback dummy object
-            $dates->push((object) [
-                'id' => null,
-                'date' => $date
+    // auto generate jam tayang kalau belum ada
+    if ($schedule->showtimes()->count() === 0) {
+        $times = ['12:00:00', '18:00:00'];
+
+        foreach ($times as $time) {
+            Showtime::create([
+                'schedule_id' => $schedule->id,
+                'time'        => $time,
+                'film_id'     => 3, // ⚠️ ganti sesuai film aktif
+                'studio_id'   => 1
             ]);
         }
     }
+
+    $dates->push($schedule);
+}
 
     return view('schedule', compact('cinema', 'dates'));
 }

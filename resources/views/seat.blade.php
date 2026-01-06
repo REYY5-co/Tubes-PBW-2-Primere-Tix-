@@ -10,79 +10,115 @@
 
 <header class="navbar">
     <img src="{{ asset('image/PrimeTIX.png') }}" class="logo">
-    <div class="profile"></div>
 </header>
 
 <main class="container">
-   <h2 class="page-title">
-    {{ strtoupper(optional($showtime->schedule->cinema)->name) }}
-    – {{ optional($showtime->studio)->name }}
-   </h2>
+    <h2 class="page-title">
+        {{ strtoupper(optional($showtime->schedule->cinema)->name) }}
+        – {{ optional($showtime->studio)->name ?? 'Studio' }}
+        ({{ \Carbon\Carbon::parse($showtime->time)->format('H.i') }} WIB)
+    </h2>
 
-   <section class="seat-area">
-        <div class="screen">LAYAR</div>
-        <div class="seats-wrapper">
-            <div class="seat-grid">
-                @for ($i = 1; $i <= 3; $i++)
-                    <div class="seat">{{ $i }}</div>
-                @endfor
-            </div>
-            <div class="aisle"></div>
-            <div class="seat-grid">
-                @for ($i = 4; $i <= 6; $i++)
-                    <div class="seat">{{ $i }}</div>
-                @endfor
-            </div>
+    <!-- AREA KURSI -->
+    <section class="seat-area">
+    <div class="screen">LAYAR</div>
+
+    <div class="seats-wrapper">
+
+        {{-- KIRI --}}
+        <div class="seat-grid">
+            @for ($i = 1; $i <= 3; $i++)
+                @php
+                    $seatCode = 'A'.$i;
+                    $isBooked = in_array($seatCode, $bookedSeats ?? []);
+                @endphp
+
+                <div
+                    class="seat {{ $isBooked ? 'booked' : '' }}"
+                    data-seat="{{ $seatCode }}"
+                    {{ $isBooked ? 'data-booked=true' : '' }}
+                >
+                    {{ $seatCode }}
+                </div>
+            @endfor
         </div>
-   </section>
 
-   <div class="action-buttons">
-       <button id="btn-reset">Hapus</button>
-       <button id="btn-save">Simpan</button>
-   </div>
+        {{-- JALUR TENGAH --}}
+        <div class="aisle"></div>
 
-   <!-- FORM HIDDEN UNTUK POST KE PAYMENT -->
-   <form id="seatForm" action="{{ route('payment') }}" method="POST">
-       @csrf
-       <input type="hidden" name="selected_seats" id="selectedSeats">
-       <input type="hidden" name="showtime_id" value="{{ $showtime->id }}">
-   </form>
+        {{-- KANAN --}}
+        <div class="seat-grid">
+            @for ($i = 4; $i <= 6; $i++)
+                @php
+                    $seatCode = 'A'.$i;
+                    $isBooked = in_array($seatCode, $bookedSeats ?? []);
+                @endphp
+
+                <div
+                    class="seat {{ $isBooked ? 'booked' : '' }}"
+                    data-seat="{{ $seatCode }}"
+                    {{ $isBooked ? 'data-booked=true' : '' }}
+                >
+                    {{ $seatCode }}
+                </div>
+            @endfor
+        </div>
+
+    </div>
+</section>
+
+
+    <div class="action-buttons">
+        <button id="btn-reset" type="button">Hapus</button>
+        <button id="btn-save" type="button">Simpan</button>
+    </div>
+
+    <form id="paymentForm" action="{{ route('payment') }}" method="POST">
+        @csrf
+        <input type="hidden" name="showtime_id" value="{{ $showtime->id }}">
+        <input type="hidden" name="selected_seats" id="selectedSeatsInput">
+    </form>
 </main>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+
     const seats = document.querySelectorAll('.seat');
     const btnSave = document.getElementById('btn-save');
-    const seatForm = document.getElementById('seatForm');
+    const btnReset = document.getElementById('btn-reset');
+    const selectedSeatsInput = document.getElementById('selectedSeatsInput');
 
-    // Toggle aktif/inaktif kursi
+    let selectedSeats = [];
+
     seats.forEach(seat => {
+        if (seat.dataset.booked) return;
+
         seat.addEventListener('click', () => {
-            seat.classList.toggle('active');
+            const code = seat.dataset.seat;
+
+            if (selectedSeats.includes(code)) {
+                selectedSeats = selectedSeats.filter(s => s !== code);
+                seat.classList.remove('active');
+            } else {
+                selectedSeats.push(code);
+                seat.classList.add('active');
+            }
         });
     });
 
-    // Reset
-    document.getElementById('btn-reset').addEventListener('click', () => {
+    btnReset.addEventListener('click', () => {
+        selectedSeats = [];
         seats.forEach(seat => seat.classList.remove('active'));
     });
 
-    // Simpan & submit form ke payment Blade
     btnSave.addEventListener('click', () => {
-        const selectedSeats = Array.from(seats)
-            .filter(seat => seat.classList.contains('active'))
-            .map(seat => seat.textContent.trim());
-
         if (selectedSeats.length === 0) {
-            alert('Pilih minimal 1 kursi!');
+            alert('Pilih minimal 1 kursi');
             return;
         }
 
-        // Masukkan data ke form hidden
-        document.getElementById('selectedSeats').value = JSON.stringify(selectedSeats);
-
-        // Submit form
-        seatForm.submit();
+        selectedSeatsInput.value = JSON.stringify(selectedSeats);
+        document.getElementById('paymentForm').submit();
     });
 });
 </script>

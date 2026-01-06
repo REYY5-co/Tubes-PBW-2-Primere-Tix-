@@ -9,6 +9,7 @@ class Showtime extends Model
     protected $fillable = [
         'schedule_id',
         'studio_id',
+        'film_id',
         'time'
     ];
 

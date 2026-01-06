@@ -13,20 +13,44 @@ use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
-    // HALAMAN SEAT
-    public function seats($showtimeId)
-    {
-        $showtime = Showtime::with(['studio', 'schedule.cinema', 'film'])->findOrFail($showtimeId);
+    // =========================
+    // HALAMAN PILIH KURSI
+    // =========================
+   public function seats($showtimeId)
+{
+    $showtime = Showtime::with(['studio', 'schedule.cinema', 'film'])
+        ->findOrFail($showtimeId);
 
-        $datetime = Carbon::parse($showtime->schedule->date->format('Y-m-d') . ' ' . $showtime->time);
+    // ⛔ validasi waktu
+    $datetime = Carbon::parse(
+        $showtime->schedule->date->format('Y-m-d') . ' ' . $showtime->time
+    );
 
-        if ($showtime->schedule->date->isPast() && !$showtime->schedule->date->isToday()) abort(404);
-        if ($showtime->schedule->date->isToday() && $datetime->isPast()) abort(404);
-
-        return view('seat', compact('showtime'));
+    if ($showtime->schedule->date->isPast() && !$showtime->schedule->date->isToday()) {
+        abort(404);
     }
 
-    // AJAX: GET SHOWTIMES
+    if ($showtime->schedule->date->isToday() && $datetime->isPast()) {
+        abort(404);
+    }
+
+    // ✅ AMBIL KURSI YANG SUDAH DIBAYAR
+    $bookedSeats = Transaction::where('showtime_id', $showtime->id)
+        ->where('status', 'paid')
+        ->pluck('selected_seats')
+        ->flatMap(fn ($seats) => json_decode($seats, true))
+        ->unique()
+        ->values()
+        ->toArray();
+
+    return view('seat', compact('showtime', 'bookedSeats'));
+}
+
+
+
+    // =========================
+    // AJAX JAM TAYANG
+    // =========================
     public function getShowtimes($scheduleId)
     {
         $schedule = Schedule::with('showtimes.studio')->find($scheduleId);
@@ -37,38 +61,51 @@ class BookingController extends Controller
         $showtimes = $schedule->showtimes
             ->sortBy('time')
             ->map(function ($showtime) use ($schedule, $now) {
-                if (!$showtime->studio) return null;
+                $datetime = Carbon::parse(
+                    $schedule->date->format('Y-m-d') . ' ' . $showtime->time
+                );
 
-                $datetime = Carbon::parse($schedule->date->format('Y-m-d') . ' ' . $showtime->time);
-                $showtime->is_locked = $schedule->date->isToday() && $datetime->lt($now);
+                $showtime->is_locked =
+                    $schedule->date->isToday() && $datetime->lt($now);
 
                 return $showtime;
             })
-            ->filter()
             ->values();
 
         return response()->json($showtimes);
     }
 
+    // =========================
     // HALAMAN PAYMENT
+    // =========================
     public function payment(Request $request)
     {
-        // Reset session lama supaya tidak salah film
+        // VALIDASI WAJIB
+        $request->validate([
+            'showtime_id' => 'required|exists:showtimes,id',
+            'selected_seats' => 'required'
+        ]);
+
+        // reset session lama
         session()->forget(['order', 'showtime_id']);
 
         $selectedSeats = json_decode($request->selected_seats, true);
-        $showtimeId = $request->showtime_id;
 
-        $showtime = Showtime::with(['schedule.cinema', 'studio'])->findOrFail($showtimeId);
+        if (!is_array($selectedSeats) || count($selectedSeats) === 0) {
+            return redirect()->back()->withErrors('Kursi belum dipilih');
+        }
+
+        $showtime = Showtime::with(['schedule.cinema', 'studio'])
+            ->findOrFail($request->showtime_id);
 
         $ticketPrice = 50000;
         $totalAmount = count($selectedSeats) * $ticketPrice;
 
         $order = [
-            'movie' => 'JUMBO', // <-- selalu JUMBO
-            'cinema' => $showtime->schedule->cinema->name,
-            'studio' => $showtime->studio->name,
-            'poster' => 'JUMBO.jpg', // <-- selalu poster JUMBO
+            'movie' => 'JUMBO',
+            'cinema' => optional($showtime->schedule->cinema)->name ?? '-',
+            'studio' => optional($showtime->studio)->name ?? '-',
+            'poster' => 'JUMBO.jpg',
             'date' => $showtime->schedule->date->format('d M Y'),
             'time' => $showtime->time,
             'ticket_qty' => count($selectedSeats),
@@ -79,14 +116,15 @@ class BookingController extends Controller
 
         session([
             'order' => $order,
-            'showtime_id' => $showtimeId
+            'showtime_id' => $showtime->id
         ]);
 
         return view('payment', compact('order'));
     }
 
-
+    // =========================
     // PROSES MIDTRANS
+    // =========================
     public function paymentProcess(Request $request)
     {
         $order = session('order');
@@ -97,7 +135,9 @@ class BookingController extends Controller
         }
 
         $user = Auth::user();
-        if (!$user) return response()->json(['error' => 'Unauthorized'], 403);
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
 
         Config::$serverKey = config('midtrans.server_key');
         Config::$isProduction = false;
@@ -137,7 +177,9 @@ class BookingController extends Controller
         return response()->json(['snap_token' => $snapToken]);
     }
 
-    // STATUS PEMBAYARAN
+    // =========================
+    // STATUS PAYMENT
+    // =========================
     public function paymentStatus(Request $request)
     {
         $orderId = session('order_id');

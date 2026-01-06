@@ -1,3 +1,4 @@
+/* RESET */
 * {
     margin: 0;
     padding: 0;
@@ -7,7 +8,6 @@
 
 body {
     background: #fff;
-    
 }
 
 /* NAVBAR */
@@ -29,7 +29,7 @@ body {
     border-radius: 50%;
 }
 
-/* LAYOUT */
+/* CONTAINER */
 .container {
     width: 75%;
     margin: auto;
@@ -42,108 +42,42 @@ body {
     margin: 30px 0 20px;
 }
 
-/* BACKGROUND ABU */
+/* AREA KURSI */
 .seat-area {
     background: #e0e0e0;
-    padding: 40px 60px 50px;
+    padding: 40px 60px 60px;
     border-radius: 24px;
 }
 
-/* SCREEN */
-.screen {
-    width: 100%;
-    height: 18px;
-    background: #000;
-    color: #fff;
-    text-align: center;
-    font-size: 12px;
-    line-height: 18px;
-    margin-bottom: 50px;
-    border-radius: 6px;
-    margin-bottom: 120px; /* ubah angka kalau mau lebih jauh */
-
-
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    background: #fff;
-}
-
-/* NAVBAR */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-}
-
-.logo {
-    height: 18px;
-}
-
-.profile {
-    width: 32px;
-    height: 32px;
-    background: #000;
-    border-radius: 50%;
-}
-
-/* LAYOUT */
-.container {
-    width: 75%;
-    margin: auto;
-}
-
-/* TITLE */
-.page-title {
-    font-size: 22px;
-    font-weight: 700;
-    margin: 30px 0 20px;
-}
-
-/* BACKGROUND ABU */
-.seat-area {
-    background: #e0e0e0;
-    padding: 40px 60px 50px;
-    border-radius: 24px;
-}
-
-/* SCREEN */
+/* LAYAR */
 .screen {
     width: 100%;
     height: 35px;
     background: #000;
     color: #fff;
     text-align: center;
-    font-size: 20px;
+    font-size: 16px;
     line-height: 35px;
-    margin-bottom: 50px;
     border-radius: 6px;
-    margin-bottom: 200px; /* ubah angka kalau mau lebih jauh */
-
-
+    margin-bottom: 100px;
 }
 
-/* SEATS */
+/* WRAPPER KURSI */
 .seats-wrapper {
     display: flex;
     justify-content: center;
-    gap: 120px; /* jarak kiri & kanan lebih lega */
+    align-items: center;
+    gap: 120px; /* JARAK TENGAH */
 }
 
+/* GRID KURSI */
 .seat-grid {
     display: grid;
-    grid-template-columns: repeat(3, 90px); /* 3 kursi */
-    gap: 28px; /* jarak antar kursi */
+    grid-template-columns: repeat(3, 90px);
+    gap: 28px;
 }
 
+/* KURSI */
 .seat {
     width: 90px;
     height: 90px;
@@ -163,19 +97,22 @@ body {
     transform: scale(1.08);
 }
 
+/* KURSI DIPILIH */
 .seat.active {
     background: #fff;
     color: #000;
     border: 2px solid #000;
 }
 
-.day.disabled {
-    opacity: 0.4;
-    pointer-events: none;
+/* KURSI SUDAH DIBOOKING */
+.seat.booked {
+    background: #999;
+    color: #fff;
     cursor: not-allowed;
+    pointer-events: none;
 }
 
-/* BUTTONS */
+/* BUTTON */
 .action-buttons {
     display: flex;
     justify-content: flex-end;
@@ -212,53 +149,4 @@ body {
     .action-buttons button {
         width: 100%;
     }
-}
-
-
-/* BUTTONS */
-.action-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 24px;
-    margin: 40px 0;
-}
-
-.action-buttons button {
-    background: #000;
-    color: #fff;
-    border: none;
-    padding: 18px 48px;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 16px;
-    cursor: pointer;
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .container {
-        width: 90%;
-    }
-
-    .seats-wrapper {
-        flex-direction: column;
-        gap: 40px;
-    }
-
-    .action-buttons {
-        flex-direction: column;
-    }
-
-    .action-buttons button {
-        width: 100%;
-    }
-    .day.active {
-    background: #000;
-    color: #fff;
-}
-
-.day:hover:not(.disabled) {
-    background: #eee;
-}
-
 }
