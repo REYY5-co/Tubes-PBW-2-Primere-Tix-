@@ -21,7 +21,7 @@ class Transaction extends Model
     ];
 
     protected $casts = [
-        'selected_seats' => 'array', // otomatis decode JSON
+        'selected_seats' => 'array',
         'paid_at' => 'datetime',
         'expired_at' => 'datetime',
     ];

@@ -73,11 +73,13 @@
         <button id="btn-save" type="button">Simpan</button>
     </div>
 
-    <form id="paymentForm" action="{{ route('payment') }}" method="POST">
+    <form id="paymentForm" action="{{ route('payment') }}" method="GET">
         @csrf
         <input type="hidden" name="showtime_id" value="{{ $showtime->id }}">
         <input type="hidden" name="selected_seats" id="selectedSeatsInput">
     </form>
+
+
 </main>
 
 <script>

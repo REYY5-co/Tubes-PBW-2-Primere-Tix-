@@ -7,7 +7,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PaymentController;
+<<<<<<< HEAD
 use App\Http\Controllers\Admin\AdminFilmController;
+=======
+>>>>>>> d5c3207038a93893c59c2b31ae7bdeb59d258f6d
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +19,13 @@ use App\Http\Controllers\Admin\AdminFilmController;
 */
 Route::get('/', [HomeController::class, 'index'])->name('homepage');
 Route::get('/jadwal', [MovieController::class, 'schedule'])->name('jadwal');
+<<<<<<< HEAD
+=======
+
+Route::get('/film/{slug}', function ($slug) {
+    return view('detail', compact('slug'));
+})->name('film.detail');
+>>>>>>> d5c3207038a93893c59c2b31ae7bdeb59d258f6d
 
 /* DETAIL FILM (PAKAI CONTROLLER, JANGAN CLOSURE) */
 Route::get('/film/{slug}', [MovieController::class, 'show'])
@@ -45,6 +55,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/captcha', [AuthController::class, 'captcha']);
 
+<<<<<<< HEAD
 /*
 |--------------------------------------------------------------------------
 | BOOKING
@@ -70,6 +81,33 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/payment/process', [PaymentController::class, 'processPayment'])
         ->name('payment.process');
+=======
+/* BOOKING FLOW */
+Route::get('/ajax/showtimes/{schedule}', [BookingController::class, 'getShowtimes'])
+    ->name('ajax.showtimes');
+
+Route::get('/seats/{showtime}', [BookingController::class, 'seats'])
+    ->name('seats');
+
+Route::post('/book-seat', [BookingController::class, 'bookSeat'])
+    ->name('book.seat');
+
+/* SEATS */
+Route::get('/seats/{showtime}', [BookingController::class, 'seats'])
+    ->name('seats');
+
+/* PAYMENT */
+Route::get('/payment', [PaymentController::class, 'showPaymentPage'])
+    ->name('payment');
+
+Route::post('/payment/process', [PaymentController::class, 'processPayment'])
+    ->name('payment.process')
+    ->middleware('auth');
+
+Route::get('/payment/status', [PaymentController::class, 'paymentFinish'])
+    ->name('payment.status')
+    ->middleware('auth');
+>>>>>>> d5c3207038a93893c59c2b31ae7bdeb59d258f6d
 
     Route::get('/payment/status', [PaymentController::class, 'paymentFinish'])
         ->name('payment.status');
