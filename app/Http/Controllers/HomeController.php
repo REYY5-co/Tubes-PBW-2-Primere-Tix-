@@ -11,6 +11,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
 
+
         $nowShowing = Film::where('status', 'now_showing')->get();
 
         $nextWeek = Film::where('status', 'next_week')->get();

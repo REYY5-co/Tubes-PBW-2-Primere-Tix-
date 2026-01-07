@@ -73,7 +73,22 @@
         </section>
     @endif
 
-    <!-- PROMO SLIDER --> <section class="slider mt-16 max-w-[900px] mx-auto relative"> <button class="slider-left absolute -left-10 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">‹</button> <div class="overflow-hidden"> <div class="slider-track flex gap-6 transition-transform duration-300"> <a href="https://www.mcdonalds.co.id" target="_blank"> <img src="/storage/films/image 8 (1).png" class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer"> </a> <a href="https://www.mcdonalds.co.id" target="_blank"> <img src="/storage/films/image 8 (1).png" class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer"> </a> <a href="https://www.mcdonalds.co.id" target="_blank"> <img src="/storage/films/image 8 (1).png" class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer"> </a> <a href="https://www.mcdonalds.co.id" target="_blank"> <img src="/storage/films/image 8 (1).png" class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer"> </a> </div> </div> <button class="slider-right absolute -right-10 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">›</button> </section>
+    <!-- PROMO SLIDER -->
+    <section class="slider mt-16 max-w-[900px] mx-auto relative"> <button
+            class="slider-left absolute -left-10 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">‹</button>
+        <div class="overflow-hidden">
+            <div class="slider-track flex gap-6 transition-transform duration-300"> <a
+                    href="https://www.mcdonalds.co.id" target="_blank"> <img src="/storage/films/image 8 (1).png"
+                        class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer"> </a> <a
+                    href="https://www.mcdonalds.co.id" target="_blank"> <img src="/storage/films/image 8 (1).png"
+                        class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer"> </a> <a
+                    href="https://www.mcdonalds.co.id" target="_blank"> <img src="/storage/films/image 8 (1).png"
+                        class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer"> </a> <a
+                    href="https://www.mcdonalds.co.id" target="_blank"> <img src="/storage/films/image 8 (1).png"
+                        class="w-[260px] h-40 rounded-xl object-cover shrink-0 cursor-pointer"> </a> </div>
+        </div> <button
+            class="slider-right absolute -right-10 top-1/2 -translate-y-1/2 bg-white shadow rounded-full w-10 h-10 z-10">›</button>
+    </section>
 
     <!-- SLIDER COMPONENT -->
     @php
@@ -113,7 +128,7 @@
         </section>
     @endforeach
 
-    <section class="max-w-[900px] mx-auto mt-24"> <article class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-md transition flex flex-col md:flex-row gap-8"> <!-- POSTER --> <img src="{{ asset('images/jimmy.jpg') }}" alt="18x2 Beyond Youthful Days" class="w-full md:w-[220px] h-[330px] object-cover rounded-xl shadow"> <!-- KONTEN ARTIKEL --> <div class="flex-1 text-left"> <h2 class="text-3xl font-bold mb-3"> 18×2 Beyond Youthful Days: Tentang Cinta, Waktu, dan Kenangan </h2> <p class="text-sm text-gray-500 mb-6"> Dipublikasikan • 2025 </p> <p class="text-gray-700 leading-relaxed mb-4"> Film <strong>18×2 Beyond Youthful Days</strong> menyajikan kisah romantis yang lembut tentang dua orang yang dipertemukan oleh waktu, lalu dipisahkan oleh keadaan. Cerita ini mengalir pelan, penuh makna, dan membawa penonton menyusuri kenangan masa muda yang tak sepenuhnya usai. </p> <p class="text-gray-700 leading-relaxed mb-4"> Dengan visual yang tenang dan atmosfer emosional yang kuat, film ini menyoroti bagaimana perasaan yang tertinggal dapat membentuk seseorang di masa depan. Dialog yang sederhana namun dalam membuat ceritanya terasa dekat dan realistis. </p> <p class="text-gray-700 leading-relaxed"> <em>18×2 Beyond Youthful Days</em> cocok untuk kamu yang menyukai drama romantis bernuansa reflektif, tentang cinta yang tumbuh, pergi, dan tetap hidup dalam ingatan. </p> <a href="{{ url('/detail-film?film=18x2') }}" class="inline-block mt-6 text-blue-600 font-semibold hover:underline"> Baca detail film → </a> </div> </article> </section> <section class="max-w-[900px] mx-auto mt-24"> <article class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-md transition flex flex-col md:flex-row gap-8"> <!-- POSTER --> <img src="{{ asset('images/agaklaen.jpg') }}" alt="Agak Laen 2" class="w-full md:w-[220px] h-[330px] object-cover rounded-xl shadow"> <!-- KONTEN ARTIKEL --> <div class="flex-1 text-left"> <h2 class="text-3xl font-bold mb-3"> Agak Laen 2: Komedi Segar dengan Cerita yang Lebih Gila </h2> <p class="text-sm text-gray-500 mb-6"> Dipublikasikan • 2025 </p> <p class="text-gray-700 leading-relaxed mb-4"> <strong>Agak Laen 2</strong> kembali menghadirkan kekonyolan khas dengan gaya humor yang ringan, absurd, dan dekat dengan kehidupan sehari-hari. Film ini melanjutkan keseruan para karakter dengan konflik baru yang lebih tidak terduga. </p> <p class="text-gray-700 leading-relaxed mb-4"> Tidak hanya mengandalkan lelucon, film ini juga menyisipkan pesan tentang persahabatan, kerja sama, dan bagaimana menghadapi masalah dengan cara yang tidak biasa. Interaksi antarkarakter menjadi kekuatan utama yang membuat penonton terus tertawa. </p> <p class="text-gray-700 leading-relaxed"> Dengan alur yang lebih cepat dan humor yang lebih berani, <em>Agak Laen 2</em> cocok menjadi tontonan hiburan untuk melepas penat bersama teman atau keluarga. </p> <a href="{{ url('/detail-film?film=agak-laen-2') }}" class="inline-block mt-6 text-blue-600 font-semibold hover:underline"> Baca detail film → </a> </div> </article> </section>
+
 
 
 

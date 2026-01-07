@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
@@ -47,7 +48,7 @@
             width: 380px;
             border-radius: 14px;
             padding: 32px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
             text-align: center;
         }
 
@@ -90,31 +91,36 @@
         }
     </style>
 </head>
+
 <body>
 
-<header>
-    <img src="{{ asset('images/primetix-logo.png') }}" alt="PrimeTIX">
-    
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button class="logout-btn">Logout</button>
-    </form>
-</header>
+    <header>
+        <img src="{{ asset('images/primetix-logo.png') }}" alt="PrimeTIX">
 
-<div class="card">
-    <h2>Halo, Admin 👋</h2>
-    <p>Selamat datang di dashboard admin</p>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button class="logout-btn">Logout</button>
+        </form>
+    </header>
 
-    <div class="menu">
-        <a href="#">Kelola Film</a>
-        <a href="#">Kelola Jadwal</a>
-        <a href="#">Kelola Tiket</a>
+    <div class="card">
+        <h2>Halo, Admin 👋</h2>
+        <p>Selamat datang di dashboard admin</p>
+
+        <div class="menu">
+            <a href="{{ route('admin.films.index') }}"
+                class="block text-center px-6 py-3 bg-black text-white rounded-xl hover:bg-gray-800">
+                Kelola Film
+            </a>
+
+
+        </div>
     </div>
-</div>
 
-<footer>
-    © {{ date('Y') }} PrimeTIX Admin Panel
-</footer>
+    <footer>
+        © {{ date('Y') }} PrimeTIX Admin Panel
+    </footer>
 
 </body>
+
 </html>

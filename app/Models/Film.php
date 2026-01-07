@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Film extends Model
@@ -11,7 +12,15 @@ class Film extends Model
         'slug',
         'poster',
         'status',
-        'year'
+        'year',
+        'rating',
+        'director',
+        'writer',
+        'cast',
+        'trailer_url',
+        'synopsis',
     ];
+
+
 }
 
