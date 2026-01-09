@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Cinema;
 use App\Models\Schedule;
 use App\Models\Film;
-use App\Models\Showtime;
 use Carbon\Carbon;
 
 class MovieController extends Controller
@@ -20,15 +19,24 @@ class MovieController extends Controller
     }
 
     // ======================
-    // JADWAL SEMUA FILM
+    // JADWAL (ANTI 404)
     // ======================
     public function schedule()
     {
         $lokasi = session('lokasi', 'Bandung');
 
+        // ❗ JANGAN firstOrFail → bikin 404
         $cinema = Cinema::whereHas('location', function ($q) use ($lokasi) {
             $q->where('name', $lokasi);
-        })->firstOrFail();
+        })->first();
+
+        // Kalau cinema belum ada → halaman tetap jalan
+        if (!$cinema) {
+            return view('schedule', [
+                'cinema' => null,
+                'dates'  => collect()
+            ]);
+        }
 
         $today = Carbon::today();
         $dates = collect();
@@ -38,22 +46,12 @@ class MovieController extends Controller
 
             $schedule = Schedule::firstOrCreate([
                 'cinema_id' => $cinema->id,
-                'date' => $date->toDateString(),
+                'date'      => $date->toDateString(),
             ]);
 
             $dates->push($schedule);
         }
 
         return view('schedule', compact('cinema', 'dates'));
-    }
-
-    // ======================
-    // JADWAL PER FILM
-    // ======================
-    public function jadwalFilm($slug)
-    {
-        $film = Film::where('slug', $slug)->firstOrFail();
-
-        return view('jadwal', compact('film'));
     }
 }

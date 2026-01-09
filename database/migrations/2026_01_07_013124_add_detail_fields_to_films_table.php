@@ -8,13 +8,26 @@ return new class extends Migration {
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('films', function (Blueprint $table) {
-            $table->decimal('rating', 2, 1)->nullable(); // contoh 8.5
-            $table->string('director')->nullable();
-            $table->string('writer')->nullable();
-            $table->text('cast')->nullable(); // aktor (dipisah koma)
+
+            if (!Schema::hasColumn('films', 'rating')) {
+                $table->decimal('rating', 2, 1)->nullable(); // contoh 8.5
+            }
+
+            if (!Schema::hasColumn('films', 'director')) {
+                $table->string('director')->nullable();
+            }
+
+            if (!Schema::hasColumn('films', 'writer')) {
+                $table->string('writer')->nullable();
+            }
+
+            if (!Schema::hasColumn('films', 'cast')) {
+                $table->text('cast')->nullable(); // aktor (dipisah koma)
+            }
+
         });
     }
 

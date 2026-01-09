@@ -11,11 +11,12 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('films', function (Blueprint $table) {
-            $table->text('synopsis')->nullable();
-            $table->string('trailer_url')->nullable();
+            if (!Schema::hasColumn('films', 'synopsis')) {
+                $table->text('synopsis')->nullable();
+            }
         });
-
     }
+
 
     /**
      * Reverse the migrations.
